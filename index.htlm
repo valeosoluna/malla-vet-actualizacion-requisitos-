@@ -1,1 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malla Curricular Interactiva - Medicina Veterinaria</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
+    <header>
+        <h1>Malla Curricular - Medicina Veterinaria (Plan 2024)</h1>
+    </header>
+
+    <div class="progress-container">
+        <div class="progress-bar">
+            <div class="progress" style="width: 0%;"></div>
+        </div>
+        <p>Avance: <span id="progress-percentage">0%</span></p>
+        <p>Ramos Faltantes: <span id="remaining-courses"></span></p>
+    </div>
+
+    <div class="semester-selection-container">
+        <p>Ramos disponibles para el próximo semestre (máximo 6):</p>
+        <ul id="available-courses"></ul>
+        <button id="clear-selection">Limpiar Selección</button>
+    </div>
+
+    <main id="course-grid">
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
