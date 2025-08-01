@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Definición de todos los ramos con sus prerrequisitos.
     const courses = {
         '1': { name: 'Introducción a las Ciencias Veterinarias', level: 1, prereqs: [] },
         '2': { name: 'Fundamentos de la Química', level: 1, prereqs: [] },
@@ -55,13 +56,13 @@ document.addEventListener('DOMContentLoaded', () => {
         '53': { name: 'Internado de Animales Mayores I', level: 9, prereqs: ['44', '47', '48'] },
         '54': { name: 'Formulación y Evaluación de Proyectos Veterinarios', level: 9, prereqs: ['30', '38'] },
         '55': { name: 'Gestión Veterinaria', level: 9, prereqs: ['30', '38'] },
-        '56': { name: 'Práctica Profesional', level: 9, prereqs: ['50', '54', '55'] }, // Asumido
+        '56': { name: 'Práctica Profesional', level: 9, prereqs: [], specialPrereq: 'licenciatura' },
         '57': { name: 'Una Salud', level: 10, prereqs: ['50', '54'] },
         '58': { name: 'Unidad de Investigación II', level: 10, prereqs: ['51'] },
-        '59': { name: 'Internado Electivo: Pequeños Animales II', level: 10, prereqs: [] },
-        '60': { name: 'Internado Electivo: Animales Mayores', level: 10, prereqs: [] },
-        '61': { name: 'Internado Electivo: Conservación, Biodiversidad y Medio Ambiente', level: 10, prereqs: [] },
-        '62': { name: 'Internado Electivo: Producción y Sistemas de Aseguramiento de la Calidad', level: 10, prereqs: [] },
+        '59': { name: 'Internado Electivo: Pequeños Animales II', level: 10, prereqs: [], elective: true },
+        '60': { name: 'Internado Electivo: Animales Mayores', level: 10, prereqs: [], elective: true },
+        '61': { name: 'Internado Electivo: Conservación, Biodiversidad y Medio Ambiente', level: 10, prereqs: [], elective: true },
+        '62': { name: 'Internado Electivo: Producción y Sistemas de Aseguramiento de la Calidad', level: 10, prereqs: [], elective: true },
         '63': { name: 'Orientación Laboral y Responsabilidad Ética en Medicina Veterinaria', level: 10, prereqs: ['36'] },
     };
 
@@ -71,32 +72,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const remainingCoursesEl = document.getElementById('remaining-courses');
     const availableCoursesList = document.getElementById('available-courses');
     const clearSelectionBtn = document.getElementById('clear-selection');
-    
+
     let approvedCourses = JSON.parse(localStorage.getItem('approvedCourses')) || [];
     let selectedCourses = [];
 
     function renderMalla() {
         courseGrid.innerHTML = '';
         const levels = [...new Set(Object.values(courses).map(c => c.level))];
-        
+        const allCourseCodes = Object.keys(courses);
+        const nonFinalCourses = allCourseCodes.filter(code => code !== '56');
+        const allNonFinalCoursesApproved = nonFinalCourses.every(code => approvedCourses.includes(code));
+
         levels.forEach(level => {
             const semesterDiv = document.createElement('div');
             semesterDiv.classList.add('semester');
             const semesterTitle = document.createElement('h2');
             semesterTitle.textContent = `Nivel ${level}`;
             semesterDiv.appendChild(semesterTitle);
-            
+
             const coursesInLevel = Object.entries(courses).filter(([_, course]) => course.level === level);
-            
+
             coursesInLevel.forEach(([code, course]) => {
                 const courseDiv = document.createElement('div');
                 courseDiv.classList.add('course');
                 courseDiv.dataset.code = code;
-                
+
                 const isApproved = approvedCourses.includes(code);
-                const hasPrereqs = course.prereqs.length > 0;
                 const prereqsApproved = course.prereqs.every(prereqCode => approvedCourses.includes(prereqCode));
-                const isBlocked = hasPrereqs && !prereqsApproved;
+                
+                const isFinalCourse = course.specialPrereq === 'licenciatura';
+                const isBlocked = !isApproved && (!prereqsApproved || (isFinalCourse && !allNonFinalCoursesApproved));
 
                 if (isApproved) {
                     courseDiv.classList.add('approved');
@@ -110,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     courseDiv.classList.add('elective');
                 }
 
-                courseDiv.textContent = `${course.name} (${code})`;
+                courseDiv.textContent = `${course.name}`;
 
                 if (!isApproved && !isBlocked) {
                     courseDiv.addEventListener('click', () => {
@@ -120,23 +125,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 semesterDiv.appendChild(courseDiv);
             });
-            
             courseGrid.appendChild(semesterDiv);
         });
-
         updateProgress();
         updateAvailableCourses();
     }
 
     function toggleApproval(code) {
-        if (approvedCourses.includes(code)) {
-            // Desaprobar ramo (opcional)
-            approvedCourses = approvedCourses.filter(c => c !== code);
-        } else {
-            // Aprobar ramo
+        if (!approvedCourses.includes(code)) {
             approvedCourses.push(code);
         }
-        
         localStorage.setItem('approvedCourses', JSON.stringify(approvedCourses));
         renderMalla();
     }
@@ -153,21 +151,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateAvailableCourses() {
         availableCoursesList.innerHTML = '';
-        selectedCourses = [];
-
-        const unapprovedCourses = Object.entries(courses).filter(([code, course]) => {
-            return !approvedCourses.includes(code);
-        });
-
+        const unapprovedCourses = Object.entries(courses).filter(([code, course]) => !approvedCourses.includes(code));
+        
         const nextSemesterCourses = unapprovedCourses.filter(([code, course]) => {
             const prereqsApproved = course.prereqs.every(prereqCode => approvedCourses.includes(prereqCode));
-            return prereqsApproved;
+            const isFinalCourse = course.specialPrereq === 'licenciatura';
+            const allOtherCoursesApproved = Object.keys(courses).filter(c => c !== '56').every(c => approvedCourses.includes(c));
+            
+            return prereqsApproved && (!isFinalCourse || allOtherCoursesApproved);
         });
-        
+
         nextSemesterCourses.forEach(([code, course]) => {
             const courseItem = document.createElement('li');
-            courseItem.textContent = `${course.name} (${code})`;
+            courseItem.textContent = `${course.name}`;
             courseItem.classList.add('available-course-item');
+            if (selectedCourses.includes(code)) {
+                courseItem.classList.add('selected');
+            }
             courseItem.addEventListener('click', () => {
                 toggleCourseSelection(code, courseItem);
             });
@@ -178,9 +178,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function toggleCourseSelection(code, element) {
         const courseData = courses[code];
         const isElective = courseData.elective;
-
         const selectedElectives = selectedCourses.filter(c => courses[c].elective);
-        
+
         if (selectedCourses.includes(code)) {
             selectedCourses = selectedCourses.filter(c => c !== code);
             element.classList.remove('selected');
@@ -200,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     clearSelectionBtn.addEventListener('click', () => {
         selectedCourses = [];
-        document.querySelectorAll('.available-course-item.selected').forEach(el => {
+        document.querySelectorAll('.available-course-item').forEach(el => {
             el.classList.remove('selected');
         });
     });
