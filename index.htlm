@@ -3,32 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malla Curricular Interactiva - Medicina Veterinaria</title>
+    <title>Malla Curricular Veterinaria U. Mayor</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <header>
-        <h1>Malla Curricular - Medicina Veterinaria (Plan 2024)</h1>
+        <h1>Malla Curricular Medicina Veterinaria</h1>
+        <div class="progress-bar-container">
+            <div class="progress-bar"></div>
+            <div class="progress-text">0% completado - Faltan X ramos</div>
+        </div>
     </header>
 
-    <div class="progress-container">
-        <div class="progress-bar">
-            <div class="progress" style="width: 0%;"></div>
+    <main class="grid-container">
+        <div class="semestre">
+            <h2>Semestre 1</h2>
+            <div class="ramos-container">
+                <div class="ramo" data-codigo="1" data-prerequisitos="[]">Introducción a las Ciencias Veterinarias</div>
+                <div class="ramo" data-codigo="2" data-prerequisitos="[]">Fundamentos de la Química</div>
+                <div class="ramo" data-codigo="3" data-prerequisitos="[]">Biología Celular y Molecular</div>
+                <div class="ramo" data-codigo="4" data-prerequisitos="[]">Matemática</div>
+                <div class="ramo" data-codigo="5" data-prerequisitos="[]">Zoología</div>
+                <div class="ramo" data-codigo="6" data-prerequisitos="[]">Fundamentos de la Física</div>
+            </div>
         </div>
-        <p>Avance: <span id="progress-percentage">0%</span></p>
-        <p>Ramos Faltantes: <span id="remaining-courses"></span></p>
-    </div>
+        
+        <div class="semestre">
+            <h2>Semestre 2</h2>
+            <div class="ramos-container">
+                <div class="ramo" data-codigo="7" data-prerequisitos="[5]">Anatomía Animal I</div>
+                <div class="ramo" data-codigo="8" data-prerequisitos="[3]">Praderas y Especies Forrajeras</div>
+                <div class="ramo" data-codigo="9" data-prerequisitos="[2]">Fundamentos de Bioquímica</div>
+                <div class="ramo" data-codigo="10" data-prerequisitos="[3]">Histoembriología Veterinaria</div>
+                <div class="ramo" data-codigo="11" data-prerequisitos="[4,5]">Ecología</div>
+                <div class="ramo electivo" data-codigo="12" data-prerequisitos="[]">Electivo 1</div>
+            </div>
+        </div>
+        
+        <div class="semestre">
+            <h2>Semestre 3</h2>
+            <div class="ramos-container">
+                <div class="ramo" data-codigo="13" data-prerequisitos="[7]">Anatomía Animal II</div>
+                <div class="ramo" data-codigo="14" data-prerequisitos="[8,9]">Nutrición y Alimentación Animal</div>
+                <div class="ramo" data-codigo="15" data-prerequisitos="[9,10]">Fisiología Veterinaria</div>
+                <div class="ramo" data-codigo="16" data-prerequisitos="[7,11]">Práctica Inicial</div>
+                <div class="ramo" data-codigo="17" data-prerequisitos="[3,9]">Inmunología General</div>
+                <div class="ramo" data-codigo="18" data-prerequisitos="[4]">Bioestadística</div>
+                <div class="ramo electivo" data-codigo="19" data-prerequisitos="[]">Electivo 2</div>
+            </div>
+        </div>
 
-    <div class="semester-selection-container">
-        <p>Ramos disponibles para el próximo semestre (máximo 6):</p>
-        <ul id="available-courses"></ul>
-        <button id="clear-selection">Limpiar Selección</button>
-    </div>
+        <div class="semestre">
+            <h2>Semestre 4</h2>
+            <div class="ramos-container">
+                <div class="ramo" data-codigo="20" data-prerequisitos="[15]">Etología y Bienestar Animal</div>
+                <div class="ramo" data-codigo="21" data-prerequisitos="[15]">Histopatología</div>
+                <div class="ramo" data-codigo="22" data-prerequisitos="[17]">Microbiología Veterinaria</div>
+                <div class="ramo" data-codigo="23" data-prerequisitos="[11]">Conservación de Fauna Silvestre</div>
+                <div class="ramo" data-codigo="24" data-prerequisitos="[18]">Métodos de Investigación en Salud</div>
+                <div class="ramo electivo" data-codigo="25" data-prerequisitos="[]">Electivo 3</div>
+            </div>
+        </div>
 
-    <main id="course-grid">
-    </main>
+        <div class="semestre">
+            <h2>Semestre 5</h2>
+            <div class="ramos-container">
+                <div class="ramo" data-codigo="26" data-prerequisitos="[18]">Genética en Ciencias Veterinarias</div>
+                <div class="ramo" data-codigo="27" data-prerequisitos="[24]">Epidemiología Veterinaria</div>
+                <div class="ramo" data-codigo="28" data-prerequisitos="[13,21]">Fisiopatología Veterinaria</div>
+                <div class="ramo" data-codigo="29" data-prerequisitos="[23]">Gestión Ambiental y Desarrollo Sustentable</div>
+                <div class="ramo" data-codigo="30" data-prerequisitos="[18]">Gestión Contable y Financiera</div>
+                <div class="ramo electivo" data-codigo="31" data-prerequisitos="[]">Electivo 4</div>
+            </div>
+        </div>
+        
+        <div class="semestre">
+            <h2>Semestre 6</h2>
+            <div class="ramos-container">
+                <div class="ramo" data-codigo="32" data-prerequisitos="[20,28]">Semiología Veterinaria</div>
+                <div class="ramo" data-codigo="33" data-prerequisitos="[15]">Reproducción animal</div>
+                <div class="ramo" data-codigo="34" data-prerequisitos="[28]">Anatomía Patológica</div>
+                <div class="ramo" data-codigo="35" data-prerequisitos="[22,24]">Microbiología de los Alimentos</div>
+                <div class="ramo" data-codigo="36" data-prerequisitos="[16,20]">Práctica Intermedia</div>
+                <div class="ramo electivo" data-codigo="37" data-prerequisitos="[]">Electivo 5</div>
+            </div>
+        </div>
 
-    <script src="script.js"></script>
-</body>
-</html>
+        <div class="semestre">
+            <h2>Semestre 7</h2>
+            <div class="ramos-container">
+                <div class="ramo" data-codigo="38" data-prerequisitos="[14,26]">Sistemas de Producción Animal</div>
+                <div class="ramo" data-codigo="39" data-prerequisitos="[28]">Farmacología Veterinaria</div>
+                <div class="ramo" data-codigo="40" data-prerequisitos="[27,35]">Enfermedades producidas por agentes biológicos I</div>
+                <div class="ramo" data-codigo="41" data-prerequisitos="[32]">Procedimientos clínicos</div>
+                <div class="ramo" data-codigo="42" data-prerequisitos="[34]">Imagenología</div>
+                <div class="ramo" data-codigo="43" data-prerequisitos="[18]">Inteligencia artificial aplicada a la salud</div>
+            </div>
+        </div>
+
+        <div class="semestre">
+            <h2>Semestre 8</h2>
+            <div class="ramos-container">
+                <div class="ramo" data-codigo="44" data-prerequisitos="[34,40]">Laboratorio clínico y biotecnología</div>
+                <div class="ramo" data-codigo="45" data-prerequisitos="[24,39]">Investigación en Ciencias Veterinarias</div>
+                <div class="ramo" data-codigo="46" data-prerequisitos="[40]">Enfermedades producidas por agentes biológicos II</div>
+                <div class="ramo" data-codigo="47" data-prerequisitos="[39,41]">Principios de cirugía y anestesiología</div>
+                <div class="ramo" data-codigo="48" data-prerequisitos="[32,42]">Medicina interna</div>
+                <div class="ramo" data-codigo="49" data-prerequisitos="[]">Bioética</div>
+            </div>
+        </div>
+
+        <div class="semestre">
+            <h2>Semestre 9</h2>
+            <div class="ramos-container">
+                <div class="ramo" data-codigo="50" data-prerequisitos="[46]">Salud Pública Veterinaria</div>
+                <div class="ramo" data-codigo="51" data-prerequisitos="[45,49]">Unidad de Investigación I</div>
+                <div class="ramo" data-codigo="52" data-prerequisitos="[44,47,48]">Internado de Pequeños Animales I</div>
+                <div class="ramo" data-codigo="53" data-prerequisitos="[44,47,48]">Internado de Animales Mayores I</div>
+                <div class="ramo" data-codigo="54" data-prerequisitos="[30,38]">Formulación y Evaluación de Proyectos Veterinarios</div>
+                <div class="ramo" data-codigo="55" data-prerequisitos="[30,38]">Gestión Veterinaria</div>
+                <div class="ramo" data-codigo="56" data-prerequisitos="[]">Práctica Profesional</div>
+            </div>
+        </div>
+
+        <div class="semestre">
+            <h2>Semestre 10</h2>
+            <div class="ramos-container">
+                <div class="ramo" data-codigo="57" data-prerequisitos="[50,54]">Una Salud</div>
+                <div class="ramo" data-codigo="58" data-prerequisitos="[51]">Unidad de Investigación II</div>
+                <div class="ramo electivo" data-codigo="59" data-prerequisitos="[]">Internado Electivo: Pequeños Animales II</div>
+                <div class="ramo electivo" data-codigo="60" data-prerequisitos="[]">Internado Electivo: Animales Mayores</div>
+                <div class="ramo electivo" data-codigo="61" data-prerequisitos="[]">Internado Electivo: Conservación, Biodiversidad y Medio Ambiente</div>
+                <div class="ramo electivo" data-
